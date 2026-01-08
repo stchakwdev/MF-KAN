@@ -1,0 +1,127 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mfkan"
+version = "0.1.0"
+description = "Multifidelity Kolmogorov-Arnold Networks for transfer learning with sparse high-fidelity data"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Samuel T. Chakwera", email = "samuel.chakwera@example.com"}
+]
+maintainers = [
+    {name = "Samuel T. Chakwera", email = "samuel.chakwera@example.com"}
+]
+keywords = [
+    "kolmogorov-arnold-networks",
+    "kan",
+    "multifidelity",
+    "transfer-learning",
+    "deep-learning",
+    "pytorch",
+    "function-approximation",
+    "scientific-machine-learning",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "torch>=2.0.0",
+    "numpy>=1.21.0",
+]
+
+[project.optional-dependencies]
+faster = [
+    "faster-kan @ git+https://github.com/AthanasiosDelis/faster-kan.git",
+]
+efficient = [
+    "efficient-kan @ git+https://github.com/Blealtan/efficient-kan.git",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
+viz = [
+    "matplotlib>=3.5.0",
+    "seaborn>=0.11.0",
+]
+examples = [
+    "tqdm>=4.60.0",
+    "scipy>=1.7.0",
+]
+all = ["mfkan[faster,efficient,dev,viz,examples]"]
+
+[project.urls]
+Homepage = "https://github.com/stchakwdev/MF-KAN"
+Documentation = "https://github.com/stchakwdev/MF-KAN#readme"
+Repository = "https://github.com/stchakwdev/MF-KAN.git"
+Issues = "https://github.com/stchakwdev/MF-KAN/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mfkan*"]
+
+[tool.setuptools.package-data]
+mfkan = ["py.typed"]
+
+# Black configuration
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.mypy_cache
+  | \.venv
+  | _build
+  | build
+  | dist
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+line_length = 100
+skip_gitignore = true
+known_first_party = ["mfkan"]
+known_third_party = ["torch", "numpy", "scipy", "matplotlib", "seaborn"]
+
+# pytest configuration
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = ["-ra", "-q", "--strict-markers", "--strict-config"]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow",
+    "gpu: marks tests that require GPU",
+]
+
+# mypy configuration
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+check_untyped_defs = true
+ignore_missing_imports = true
